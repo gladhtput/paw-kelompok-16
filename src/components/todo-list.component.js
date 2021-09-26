@@ -4,26 +4,26 @@ import axios from 'axios';
 
 const Todo = props => (
     <tr>
-        <td>{props.todo.todo_description}</td>
-        <td>{props.todo.todo_responsible}</td>
-        <td>{props.todo.todo_priority}</td>
+        <td>{props.todo.desc}</td>
+        <td>{props.todo.responsible}</td>
+        <td>{props.todo.priority}</td>
         <td>
             <Link to={"/edit/"+props.todo._id}>Edit</Link>
         </td>
     </tr>
 )
 
-export default class TodosList extends Component {
+export default class todoList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {todos: []};
+        this.state = {todo: []};
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/todos/')
+        axios.get('http://localhost:8080/todo/')
             .then(response => {
-                this.setState({ todos: response.data });
+                this.setState({ todo: response.data });
             })
             .catch(function (error){
                 console.log(error);
@@ -31,7 +31,7 @@ export default class TodosList extends Component {
     }
 
     todoList() {
-        return this.state.todos.map(function(currentTodo, i){
+        return this.state.todo.map(function(currentTodo, i){
             return <Todo todo={currentTodo} key={i} />;
         })
     }
@@ -39,7 +39,7 @@ export default class TodosList extends Component {
     render() {
         return (
             <div>
-                <h3>Todos List</h3>
+                <h3>todo List</h3>
                 <table className="table table-striped" style={{ marginTop: 20 }} >
                     <thead>
                         <tr>
