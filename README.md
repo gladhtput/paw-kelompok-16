@@ -25,7 +25,7 @@ data yang dimasukkan antara lain
 Jalankan server (back-end)
 1. Buka terminal pada direktori back-end
 2. Jika menjalankan untuk pertama kalinya, maka ketik `npm install`
-3. Kemudian ketik `npm start`
+3. Kemudian ketik `nodemon server`
 
 Jalankan dengan front-end
 1. Buka terminal pada direktori front-end
