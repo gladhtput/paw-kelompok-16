@@ -13,21 +13,21 @@ export default class EditTodo extends Component {
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            todo_description: '',
-            todo_responsible: '',
-            todo_priority: '',
-            todo_completed: false
+            desc: '',
+            responsible: '',
+            priority: '',
+            completed: false
         }
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/todos/'+this.props.match.params.id)
+        axios.get('http://localhost:8080/todo/'+this.props.match.params.id)
             .then(response => {
                 this.setState({
-                    todo_description: response.data.todo_description,
-                    todo_responsible: response.data.todo_responsible,
-                    todo_priority: response.data.todo_priority,
-                    todo_completed: response.data.todo_completed
+                    desc: response.data.desc,
+                    responsible: response.data.responsible,
+                    priority: response.data.priority,
+                    completed: response.data.completed
                 })   
             })
             .catch(function (error) {
@@ -37,38 +37,38 @@ export default class EditTodo extends Component {
 
     onChangeTodoDescription(e) {
         this.setState({
-            todo_description: e.target.value
+            desc: e.target.value
         });
     }
 
     onChangeTodoResponsible(e) {
         this.setState({
-            todo_responsible: e.target.value
+            responsible: e.target.value
         });
     }
 
     onChangeTodoPriority(e) {
         this.setState({
-            todo_priority: e.target.value
+            priority: e.target.value
         });
     }
 
     onChangeTodoCompleted(e) {
         this.setState({
-            todo_completed: !this.state.todo_completed
+            completed: !this.state.completed
         });
     }
 
     onSubmit(e) {
         e.preventDefault();
         const obj = {
-            todo_description: this.state.todo_description,
-            todo_responsible: this.state.todo_responsible,
-            todo_priority: this.state.todo_priority,
-            todo_completed: this.state.todo_completed
+            desc: this.state.desc,
+            responsible: this.state.responsible,
+            priority: this.state.priority,
+            completed: this.state.completed
         };
         console.log(obj);
-        axios.post('http://localhost:4000/todos/update/'+this.props.match.params.id, obj)
+        axios.post('http://localhost:8080/todo/update/'+this.props.match.params.id, obj)
             .then(res => console.log(res.data));
         
         this.props.history.push('/');
@@ -83,7 +83,7 @@ export default class EditTodo extends Component {
                         <label>Description: </label>
                         <input  type="text"
                                 className="form-control"
-                                value={this.state.todo_description}
+                                value={this.state.desc}
                                 onChange={this.onChangeTodoDescription}
                                 />
                     </div>
@@ -92,7 +92,7 @@ export default class EditTodo extends Component {
                         <input 
                                 type="text" 
                                 className="form-control"
-                                value={this.state.todo_responsible}
+                                value={this.state.responsible}
                                 onChange={this.onChangeTodoResponsible}
                                 />
                     </div>
@@ -103,7 +103,7 @@ export default class EditTodo extends Component {
                                     name="priorityOptions" 
                                     id="priorityLow" 
                                     value="Low"
-                                    checked={this.state.todo_priority==='Low'} 
+                                    checked={this.state.priority==='Low'} 
                                     onChange={this.onChangeTodoPriority}
                                     />
                             <label className="form-check-label">Low</label>
@@ -114,7 +114,7 @@ export default class EditTodo extends Component {
                                     name="priorityOptions" 
                                     id="priorityMedium" 
                                     value="Medium" 
-                                    checked={this.state.todo_priority==='Medium'} 
+                                    checked={this.state.priority==='Medium'} 
                                     onChange={this.onChangeTodoPriority}
                                     />
                             <label className="form-check-label">Medium</label>
@@ -125,7 +125,7 @@ export default class EditTodo extends Component {
                                     name="priorityOptions" 
                                     id="priorityHigh" 
                                     value="High" 
-                                    checked={this.state.todo_priority==='High'} 
+                                    checked={this.state.priority==='High'} 
                                     onChange={this.onChangeTodoPriority}
                                     />
                             <label className="form-check-label">High</label>
@@ -137,8 +137,8 @@ export default class EditTodo extends Component {
                                 type="checkbox"
                                 name="completedCheckbox"
                                 onChange={this.onChangeTodoCompleted}
-                                checked={this.state.todo_completed}
-                                value={this.state.todo_completed}
+                                checked={this.state.completed}
+                                value={this.state.completed}
                                 />
                         <label className="form-check-label" htmlFor="completedCheckbox">
                             Completed
