@@ -2,25 +2,49 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const Todo = props => (
-    <tr>
+const Todo = props => {
+    return(
+        <tr>
         <td>{props.todo.desc}</td>
-        <td>{props.todo.responsible}</td>
-        <td>{props.todo.priority}</td>
-        <td>
+        <td style={{textAlign: 'center'}}>{props.todo.responsible}</td>
+        <td style={{textAlign: 'center'}}>{props.todo.priority}</td>
+        <td style={{textAlign: 'center'}}>{props.todo.completed ? "Yes" : "No"}</td>
+        <td style={{textAlign: 'center'}}>
             <Link to={"/edit/"+props.todo._id}>Edit</Link>
-        </td>
-    </tr>
-)
+            {" "}|{" "}
+            <button                
+                onClick={() => {
+                    axios.delete("http://localhost:8080/todo/" + props.todo._id).then((response) => {
+                        console.log(response.data);
+                    });
+            }}
+            >
+                Delete   
+            </button>
+        </td>        
+        </tr>
+    )
+}
 
 export default class todoList extends Component {
 
     constructor(props) {
-        super(props);
+        super(props);        
+
         this.state = {todo: []};
     }
 
     componentDidMount() {
+        axios.get('http://localhost:8080/todo/')
+            .then(response => {
+                this.setState({ todo: response.data });
+            })
+            .catch(function (error){
+                console.log(error);
+            })
+    }
+
+    componentDidUpdate(){
         axios.get('http://localhost:8080/todo/')
             .then(response => {
                 this.setState({ todo: response.data });
@@ -44,9 +68,10 @@ export default class todoList extends Component {
                     <thead>
                         <tr>
                             <th>Description</th>
-                            <th>Responsible</th>
-                            <th>Priority</th>
-                            <th>Action</th>
+                            <th style={{textAlign: 'center'}}>Responsible</th>
+                            <th style={{textAlign: 'center'}}>Priority</th>
+                            <th style={{textAlign: 'center'}}>Completed</th>
+                            <th style={{textAlign: 'center'}}>Action</th>                            
                         </tr>
                     </thead>
                     <tbody>
