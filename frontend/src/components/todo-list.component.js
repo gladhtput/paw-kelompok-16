@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import './todo-list.component.css'
 
 const Todo = props => {
     return(
@@ -10,16 +11,16 @@ const Todo = props => {
         <td style={{textAlign: 'center'}}>{props.todo.priority}</td>
         <td style={{textAlign: 'center'}}>{props.todo.completed ? "Yes" : "No"}</td>
         <td style={{textAlign: 'center'}}>
-            <Link to={"/edit/"+props.todo._id}>Edit</Link>
+            <Link to={"/edit/"+props.todo._id}><img src="https://img.icons8.com/material-outlined/24/000000/edit--v1.png"/></Link>
             {" "}|{" "}
-            <button                
+            <button className="delete-btn"                
                 onClick={() => {
-                    axios.delete("http://localhost:8080/todo/" + props.todo._id).then((response) => {
+                    axios.delete("http://localhost:3001/todo/" + props.todo._id).then((response) => {
                         console.log(response.data);
                     });
             }}
             >
-                Delete   
+                <img className='delete-img' src="https://img.icons8.com/color/48/000000/delete-sign--v1.png"/>   
             </button>
         </td>        
         </tr>
@@ -35,7 +36,7 @@ export default class todoList extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/todo/')
+        axios.get('http://localhost:3001/todo/')
             .then(response => {
                 this.setState({ todo: response.data });
             })
@@ -45,7 +46,7 @@ export default class todoList extends Component {
     }
 
     componentDidUpdate(){
-        axios.get('http://localhost:8080/todo/')
+        axios.get('http://localhost:3001/todo/')
             .then(response => {
                 this.setState({ todo: response.data });
             })
